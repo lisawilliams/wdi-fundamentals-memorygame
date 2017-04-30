@@ -43,14 +43,18 @@ var checkForMatch = function() {
 }
 
 
-var flipCard = function (cardID) {
-	console.log("User flipped " + cards[cardID].rank);
-	//console.log(cardImage);
-	//console.log(cards[suit]);
+var flipCard = function () {
+	
+	cardID = this.getAttribute('data-id');
+	console.log(cardID);
 
 	// add card to array of cardsInPlay
 
 	cardsInPlay.push(cards[cardID].rank);
+
+	// display card image
+
+	this.setAttribute('src', cards[cardID].cardImage);
 
 	// show the what image is up in console
 
@@ -58,17 +62,42 @@ var flipCard = function (cardID) {
 
 	// display suit in console
 
-	console.log(cards[cardID].suit);
+	console.log(cards[cardID].suit)
 
 	// see if two cards have been played
 
 	if (cardsInPlay.length === 2) {
 		checkForMatch();
+
+		cardsInPlay =[];
 	}
 
 };
 
-flipCard(0);
-flipCard(2);
+var createBoard = function() {
+
+	for (var i = 0; i < cards.length; i++) {
+
+		var cardElement = document.createElement('img');
+
+		cardElement.setAttribute('src', "images/back.png");
+		cardElement.setAttribute('data-id', i);
+
+		// now adding an event listener so we can do something when people click on cards
+
+		cardElement.addEventListener('click', flipCard);
+
+		// now the card has to go on the board
+
+		document.getElementById('game-board').appendChild(cardElement);
+
+
+  }
+
+}
+
+// create the board
+
+createBoard();
   
 
